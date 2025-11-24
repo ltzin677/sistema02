@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sistema de Finanças</title>
+    <link rel="stylesheet" href="/sistema.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Sistema de Finanças</h1>
+      <a href="/pgn2.html"><button class="btn-header">Outra forma</button></a>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Adicionar Depósito</h2>
+        <form id="depositoForm">
+          <label for="descricao">Descrição:</label>
+          <input type="text" id="descricao" placeholder="Proprietário" />
+
+          <label for="valor">Valor:</label>
+          <input type="number" id="valor" placeholder="150" />
+
+          <label for="tipo">Tipo:</label>
+          <select id="tipo">
+            <option>Boleto</option>
+          </select>
+
+          <button type="submit" class="btn">Adicionar</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Últimos Depósitos</h2>
+        <ul id="listaDepositos"></ul>
+      </section>
+    </main>
+
+    <script src="/sistema.js"></script>
+  </body>
+</html>
