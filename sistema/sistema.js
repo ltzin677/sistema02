@@ -16,8 +16,16 @@ form.addEventListener('submit', (e) => {
 
 
   const li = document.createElement('li');
-  li.textContent = `${descricao} — R$ ${valor} (${tipo})`;
+  li.textContent = `${descricao} : R$ ${valor} (${tipo})`;
   lista.appendChild(li);
+
+  let agora = new Date();
+let dia = agora.getDate();
+let mes = agora.getMonth() + 1; 
+let ano = agora.getFullYear();
+let dataFormatada = `30${dia}/04${mes}/2025${ano}`;
+console.log(dataFormatada);
+
 
   li.style.opacity = '0';
   setTimeout(() => li.style.opacity = '1', 100);

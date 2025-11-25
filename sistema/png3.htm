@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Plano de Transição</title>
+  <link rel="stylesheet" href="png3.css">
+</head>
+<body>
+
+  <header>
+    <div class="header">
+      <h1>Sistema de Finanças</h1>
+      <a href="/pgn2.html">
+        <button class="voltar" type="button">Voltar</button>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2> Detalhes da Conta</h2>
+      <table class="table">
+        <tr>
+          <td>Disponível:</td>
+          <td><strong>R$ 20.000,00</strong></td>
+        </tr>
+        <tr>
+          <td>Quantia desejada:</td>
+          <td><strong>R$ 15.000,00</strong></td>
+        </tr>
+        <tr>
+          <td>Data de retirada:</td>
+          <td><strong>30 de setembro de 2025</strong></td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Adicionar forma de retirada</h2>
+      <ul class="options">
+        <li><label><input type="checkbox" class="option"> Cartão</label></li>
+        <li><label><input type="checkbox" class="option"> Biometria</label></li>
+        <li><label><input type="checkbox" class="option"> Pix</label></li>
+        <li><label><input type="checkbox" class="option"> Outros</label></li>
+      </ul>
+    </section>
+
+    <h3 class="subtitle"> Retirada de Dinheiro</h3>
+
+    <section class="section">
+      <h2> Retirada</h2>
+      <div class="inputs">
+        <input type="text" id="conta" placeholder="Transferir dinheiro para qual conta bancária">
+        <input type="text" id="opcao" placeholder="Caso necessário, adicione outra opção">
+      </div>
+      <button class="btn" id="confirmar">Confirmar</button>
+    </section>
+  </main>
+
+  <script src="png3.js"></script>
+</body>
+</html>

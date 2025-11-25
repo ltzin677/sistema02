@@ -11,7 +11,6 @@ document.getElementById("saqueForm").addEventListenerListener("submit", (e) => {
 
     alert(`Saque realizado:
 
-Descrição: ${descricao}
-Valor: R$ ${valor}`);
+Descrição: ${descricao}Valor: R$ ${valor}`);
 e.target.reset();
 })
