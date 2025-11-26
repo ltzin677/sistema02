@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Saque – Sistema Financeiro</title>
+  <link rel="stylesheet" href="saque.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h2>Saque</h2>
+    <div class="top-actions">
+      <button onclick="window.location.href='sistema.html'">Voltar</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h3>Sacar Dinheiro</h3>
+      <form id="saqueForm">
+        <input type="text" id="descSaque" placeholder="Descrição (ex: compras)" />
+        <input type="number" id="valorSaque" placeholder="Valor (R$)" />
+        <select id="tipoSaque">
+          <option value="Extrato">Extrato</option>
+          <option value="Transferência">Transferência</option>
+          <option value="Pix">Pix</option>
+        </select>
+        <button type="submit">Confirmar Saque</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="saque.js"></script>
+</body>
+</html>
