@@ -1,55 +1,60 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sistema Financeiro</title>
+  <title>Sistema de Finanças</title>
   <link rel="stylesheet" href="sistema.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h2>Sistema Financeiro</h2>
+  <div class="topbar">
+    <h2>Sistema de Finanças</h2>
     <div class="top-actions">
-      <button id="temaToggle" title="Tema">🌗</button>
+      <button id="toggleTheme">🌓</button>
+      <button id="btnExtrato">Extrato</button>
       <button id="btnGrafico">Gráfico</button>
-      <button id="btnSaque">Sacar</button>
-      <button id="btnLogout">Sair</button>
+      <button id="btnPlano">Plano</button>
+      <button id="logout">Sair</button>
     </div>
-  </header>
+  </div>
 
   <main>
+  
     <section class="card">
       <h3>Adicionar Depósito</h3>
       <form id="depositoForm">
-        <input type="text" id="descEntrada" placeholder="Descrição (ex: pagamento)" />
-        <input type="number" id="valorEntrada" placeholder="Valor (R$)" />
-        <select id="tipoEntrada">
+        <label>Descrição</label>
+        <input id="descricao" placeholder="Descrição (ex: pagamento cliente)" />
+        <label>Valor</label>
+        <input id="valor" type="number" placeholder="150" min="0" />
+        <label>Tipo</label>
+        <select id="tipo">
           <option value="Boleto">Boleto</option>
           <option value="Extrato">Extrato</option>
-          <option value="Pix">Pix</option>
+          <option value="PIX">PIX</option>
         </select>
-        <button type="submit">Adicionar Entrada</button>
+
+        <div class="meta-row">
+          <input id="metaValor" placeholder="Definir meta financeira (R$)" type="number" />
+          <button type="button" id="setMeta">Definir Meta</button>
+        </div>
+
+        <button type="submit">Adicionar</button>
       </form>
+      <p id="saldoTxt" style="margin-top:12px;font-weight:bold"></p>
+      <p id="avisoLimite" style="color:#ffdede;margin-top:6px"></p>
     </section>
 
+    
     <section class="card">
-      <h3>Meta Financeira</h3>
-      <div class="meta-row">
-        <input type="number" id="metaValor" placeholder="Valor da meta (R$)" />
-        <button id="salvarMeta">Salvar Meta</button>
-      </div>
-      <p id="metaInfo">Meta atual: R$ 0,00</p>
-    </section>
-
-    <section class="card">
-      <h3>Extratos</h3>
-      <ul id="listaExtratos" class="lista"></ul>
+      <h3>Últimos Extratos</h3>
+      <ul class="lista" id="listaExtratos"></ul>
       <div class="extrato-actions">
-        <button id="limparExtratos">Limpar extratos</button>
+        <button id="verTodos">Ver todos</button>
       </div>
     </section>
   </main>
 
-  <script src="sistema.js"></script>
+<script src="sistema.js"></script>
 </body>
 </html>

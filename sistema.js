@@ -1,172 +1,154 @@
+
+
 // sistema.js
-// Verifica login
-if(localStorage.getItem('logado') !== 'sim'){
-  window.location.href = 'login.html';
+// Bloqueia acesso se não logado
+if (localStorage.getItem("logado") !== "sim") {
+  window.location.href = "login.html";
 }
 
-// Utilidades
-function formatMoney(v){
-  return Number(v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
-}
-function agoraFormat(){
-  const d = new Date();
-  return d.toLocaleDateString() + ' às ' + d.toLocaleTimeString();
-}
+// elementos
+const depositoForm = document.getElementById("depositoForm");
+const listaExtratos = document.getElementById("listaExtratos");
+const saldoTxt = document.getElementById("saldoTxt");
+const avisoLimite = document.getElementById("avisoLimite");
+const verTodosBtn = document.getElementById("verTodos");
+const btnGrafico = document.getElementById("btnGrafico");
+const btnPlano = document.getElementById("btnPlano");
+const btnExtrato = document.getElementById("btnExtrato");
+const logoutBtn = document.getElementById("logout");
+const toggleThemeBtn = document.getElementById("toggleTheme");
+const setMetaBtn = document.getElementById("setMeta");
+const metaValorInput = document.getElementById("metaValor");
 
-// Carrega extratos e meta
-let extratos = JSON.parse(localStorage.getItem('extratos')) || [];
-let meta = JSON.parse(localStorage.getItem('meta')) || {valor:0};
+// iniciais
+let extratos = JSON.parse(localStorage.getItem("extratos")) || [];
+let limiteAviso = Number(localStorage.getItem("limiteAviso")) || 0;
+let metaFinanceira = Number(localStorage.getItem("metaFinanceira")) || 0;
 
-// DOM
-const listaExtratos = document.getElementById('listaExtratos');
-const depositoForm = document.getElementById('depositoForm');
-const metaValor = document.getElementById('metaValor');
-const salvarMeta = document.getElementById('salvarMeta');
-const metaInfo = document.getElementById('metaInfo');
-const limparExtratos = document.getElementById('limparExtratos');
+// carregamento inicial
+carregarResumo();
+aplicarTema();
 
-// Mostrar meta atual
-function atualizarMetaInfo(){
-  metaInfo.textContent = `Meta atual: R$ ${formatMoney(meta.valor || 0)}`;
-  // Aviso de limite: se saldo total >= meta -> mensagem
-  const saldoTotal = extratos.reduce((s, x) => s + (x.tipoOperacao === 'ENTRADA' ? Number(x.valor) : -Number(x.valor)), 0);
-  if(meta.valor > 0 && saldoTotal >= meta.valor){
-    alert('🎉 Parabéns! Você atingiu sua meta financeira.');
+// eventos
+depositoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const descricao = document.getElementById("descricao").value.trim();
+  const valor = Number(document.getElementById("valor").value);
+  const tipo = document.getElementById("tipo").value;
+
+  if (!descricao || !valor || valor <= 0) {
+    alert("Preencha descrição e valor válido.");
+    return;
   }
+
+  const agora = new Date();
+  const data = agora.toLocaleDateString();
+  const hora = agora.toLocaleTimeString();
+
+  const extrato = {
+    tipoOperacao: "ENTRADA",
+    descricao,
+    valor,
+    tipo,
+    data: `${data} às ${hora}`
+  };
+
+  extratos.push(extrato);
+  localStorage.setItem("extratos", JSON.stringify(extratos));
+  carregarResumo();
+  depositoForm.reset();
+});
+
+// setar meta financeira
+setMetaBtn.addEventListener("click", () => {
+  const v = Number(metaValorInput.value);
+  if (v && v > 0) {
+    metaFinanceira = v;
+    localStorage.setItem("metaFinanceira", String(metaFinanceira));
+    alert(`Meta definida: R$ ${metaFinanceira}`);
+    metaValorInput.value = "";
+    carregarResumo();
+  } else {
+    alert("Informe um valor de meta válido.");
+  }
+});
+
+// ver todos -> abre extrato completo (mostra na mesma página ou nova)
+verTodosBtn.addEventListener("click", () => {
+  window.location.href = "sistema.html#todos";
+  alert("Role para baixo para ver todos os extratos (ou use Extrato no topo).");
+});
+
+// navegações -> abrem páginas
+btnGrafico.addEventListener("click", () => window.location.href = "grafico.html");
+btnPlano.addEventListener("click", () => window.location.href = "png3.html");
+btnExtrato.addEventListener("click", () => window.location.href = "sistema.html#todos");
+
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("logado");
+  window.location.href = "login.html";
+});
+
+// tema
+toggleThemeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+  aplicarTema();
+});
+
+// aplicar tema salvo
+function aplicarTema() {
+  const theme = localStorage.getItem("tema") || "dark";
+  if (theme === "light") document.body.classList.add("light");
+  else document.body.classList.remove("light");
 }
 
-// Renderizar extratos
-function renderExtratos(){
-  listaExtratos.innerHTML = '';
-  extratos.slice().reverse().forEach((item, idx)=>{
-    const li = document.createElement('li');
+// atualiza localStorage tema quando usuário troca
+document.body.addEventListener("classchange", ()=>{}); // placeholder
+
+// carregar resumo e checar avisos
+function carregarResumo() {
+  // atualiza extratos rápidos (3 últimos)
+  listaExtratos.innerHTML = "";
+  const ultimos = [...extratos].slice(-5).reverse();
+  ultimos.forEach(item => {
+    const li = document.createElement("li");
     li.innerHTML = `
       <div>
-        <strong>${item.tipoOperacao} • ${item.tipo}</strong><br>
-        ${item.descricao} • R$ ${formatMoney(item.valor)}<br>
-        <span class="meta">${item.data}</span>
+        <div><strong>${item.tipoOperacao}</strong> — ${item.descricao}</div>
+        <div class="meta">${item.tipo} • ${item.data}</div>
       </div>
-      <div>
-        <button class="btnRem" data-index="${extratos.length - 1 - idx}">Excluir</button>
-      </div>
+      <div><strong>R$ ${Number(item.valor).toFixed(2)}</strong></div>
     `;
     listaExtratos.appendChild(li);
   });
 
-  // botoes excluir
-  document.querySelectorAll('.btnRem').forEach(b=>{
-    b.addEventListener('click', ()=> {
-      const i = Number(b.dataset.index);
-      extratos.splice(i,1);
-      localStorage.setItem('extratos', JSON.stringify(extratos));
-      renderExtratos();
-    });
+  // calcula saldo = ganhos - gastos
+  let ganhos = 0, gastos = 0;
+  extratos.forEach(it => {
+    if (it.tipoOperacao === "ENTRADA") ganhos += Number(it.valor);
+    else if (it.tipoOperacao === "SAÍDA") gastos += Number(it.valor);
   });
-}
+  const saldo = ganhos - gastos;
+  saldoTxt.textContent = `Saldo atual: R$ ${saldo.toFixed(2)} (Entradas: R$ ${ganhos.toFixed(2)} • Saídas: R$ ${gastos.toFixed(2)})`;
 
-// Submeter depósito (entrada)
-depositoForm.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const desc = document.getElementById('descEntrada').value.trim();
-  const valor = document.getElementById('valorEntrada').value.trim();
-  const tipo = document.getElementById('tipoEntrada').value;
-
-  if(!desc || !valor || Number(valor) <= 0){
-    alert('Preencha a descrição e valor válido.');
-    return;
-  }
-
-  const extrato = {
-    tipoOperacao: 'ENTRADA',
-    descricao: desc,
-    valor: Number(valor),
-    tipo: tipo,
-    data: agoraFormat()
-  };
-
-  extratos.push(extrato);
-  localStorage.setItem('extratos', JSON.stringify(extratos));
-
-  // atualiza arrays para gráfico
-  atualizarDadosGrafico(extrato);
-
-  renderExtratos();
-  depositoForm.reset();
-  atualizarMetaInfo();
-});
-
-// Salvar meta
-salvarMeta.addEventListener('click', ()=>{
-  const v = Number(metaValor.value || 0);
-  if(v <= 0){
-    alert('Defina um valor de meta maior que zero.');
-    return;
-  }
-  meta.valor = v;
-  localStorage.setItem('meta', JSON.stringify(meta));
-  metaValor.value = '';
-  atualizarMetaInfo();
-  alert('Meta salva com sucesso!');
-});
-
-// Limpar extratos
-limparExtratos.addEventListener('click', ()=>{
-  if(confirm('Deseja realmente limpar todos os extratos?')){
-    extratos = [];
-    localStorage.setItem('extratos', JSON.stringify(extratos));
-    localStorage.removeItem('ganhos');
-    localStorage.removeItem('gastos');
-    localStorage.removeItem('datas');
-    renderExtratos();
-  }
-});
-
-// Logout e navegação
-document.getElementById('btnLogout').addEventListener('click', ()=>{
-  localStorage.removeItem('logado');
-  window.location.href = 'login.html';
-});
-document.getElementById('btnSaque').addEventListener('click', ()=> window.location.href = 'saque.html');
-document.getElementById('btnGrafico').addEventListener('click', ()=> window.location.href = 'grafico.html');
-
-// Tema claro/escuro
-const temaToggle = document.getElementById('temaToggle');
-temaToggle.addEventListener('click', ()=>{
-  if(document.documentElement.dataset.theme === 'light'){
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('theme', 'dark');
+  // checar limite de aviso
+  if (limiteAviso > 0 && saldo <= limiteAviso) {
+    avisoLimite.textContent = ` Atenção: Saldo abaixo do limite definido (R$ ${limiteAviso.toFixed(2)})`;
   } else {
-    document.documentElement.setAttribute('data-theme','light');
-    localStorage.setItem('theme','light');
+    avisoLimite.textContent = "";
   }
+
+  // checar meta
+  if (metaFinanceira > 0 && saldo >= metaFinanceira) {
+    setTimeout(()=> alert(` Parabéns! Você atingiu sua meta financeira: R$ ${metaFinanceira}`), 200);
+  }
+}
+
+// atualizar tema salvo quando usuário alterna
+document.getElementById("toggleTheme").addEventListener("click", () => {
+  const isLight = document.body.classList.contains("light");
+  localStorage.setItem("tema", isLight ? "light" : "dark");
 });
 
-// Aplica tema salvo
-if(localStorage.getItem('theme') === 'light'){
-  document.documentElement.setAttribute('data-theme','light');
-}
-
-// Função para atualizar dados do gráfico em localStorage
-function atualizarDadosGrafico(extrato){
-  // vamos manter arrays paralelos: datas, ganhos, gastos (adicionando novo ponto)
-  const datas = JSON.parse(localStorage.getItem('datas')) || [];
-  const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
-  const gastos = JSON.parse(localStorage.getItem('gastos')) || [];
-
-  const dataLabel = new Date().toLocaleString();
-  datas.push(dataLabel);
-  if(extrato.tipoOperacao === 'ENTRADA'){
-    ganhos.push(Number(extrato.valor));
-    gastos.push(0);
-  } else {
-    ganhos.push(0);
-    gastos.push(Number(extrato.valor));
-  }
-  localStorage.setItem('datas', JSON.stringify(datas));
-  localStorage.setItem('ganhos', JSON.stringify(ganhos));
-  localStorage.setItem('gastos', JSON.stringify(gastos));
-}
-
-// Inicialização
-renderExtratos();
-atualizarMetaInfo();
+// carrega ao abrir
+carregarResumo();

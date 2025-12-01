@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plano de Retirada</title>
+  <link rel="stylesheet" href="sistema.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h2>Plano de Retirada</h2>
+    <div class="top-actions">
+      <button onclick="window.location.href='sistema.html'">Voltar</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card">
+      <h3>Detalhes</h3>
+      <table style="width:100%;color:inherit">
+        <tr><td>Disponível:</td><td id="disponivel">R$ 0,00</td></tr>
+        <tr><td>Quantia desejada:</td><td><input id="quantDesejada" placeholder="R$ 1.000,00" type="number" /></td></tr>
+        <tr><td>Retirada agendada:</td><td><input id="dataRetirada" type="date" /></td></tr>
+      </table>
+    </section>
+
+    <section class="card">
+      <h3>Adicionar forma de retirada</h3>
+      <label><input type="checkbox" class="forma" value="Cartão" /> Cartão</label><br/>
+      <label><input type="checkbox" class="forma" value="Biometria" /> Biometria</label><br/>
+      <label><input type="checkbox" class="forma" value="PIX" /> PIX</label><br/>
+      <label><input type="checkbox" class="forma" value="Outros" /> Outros</label><br/>
+    </section>
+
+    <section class="card">
+      <h3>Retirada</h3>
+      <input id="contaPara" placeholder="Conta bancária destino" />
+      <input id="infoExtra" placeholder="Observações (opcional)" />
+      <button id="confirmarRetirada">Confirmar Retirada</button>
+    </section>
+  </main>
+
+<script src="png3.js"></script>
+</body>
+</html>

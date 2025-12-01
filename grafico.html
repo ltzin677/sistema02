@@ -1,19 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Gráfico</title>
-    <link rel="stylesheet" href="grafico.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gráfico – Sistema Financeiro</title>
+  <link rel="stylesheet" href="sistema.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <div class="topbar">
+    <h2>Gráfico de Ganhos e Gastos</h2>
+    <div class="top-actions">
+      <button onclick="window.location.href='sistema.html'">Voltar</button>
+    </div>
+  </div>
 
-<h1>Gráfico Financeiro</h1>
-<canvas id="grafico"></canvas>
+  <main>
+    <section class="card">
+      <canvas id="graficoFinanceiro" style="max-width:100%;height:300px"></canvas>
+    </section>
+  </main>
 
-<a href="menu.html">Voltar</a>
-
-<script src="grafico.js"></script>
-
+  <script src="grafico.js"></script>
 </body>
 </html>

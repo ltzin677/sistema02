@@ -1,130 +1,163 @@
 
-:root {
-  --bg: #111;
-  --card: #1c1c1c;
-  --text: #fff;
-  --accent: #ff3333;
+:root{
+  --bg:#111;
+  --card:#1c1c1c;
+  --text:#fff;
+  --accent:#ff3333;
+  --accent-2:#B22222;
+
+  --light-bg:#f4f4f4;
+  --light-card:#fff;
+  --light-text:#111;
+}
+
+*{box-sizing:border-box}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial, sans-serif;
+  margin:0;
+  min-height:100vh;
 }
 
 
-* {
-  box-sizing: border-box;
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 24px;
+  background:linear-gradient(135deg,#8B0000,#B22222);
+  box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+.topbar h2{margin:0}
+
+.top-actions button{
+  margin-left:10px;
+  padding:8px 12px;
+  border-radius:8px;
+  border:none;
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+}
+.top-actions button:hover{
+  transform:translateY(-2px)
 }
 
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  margin: 0;
-  min-height: 100vh;
-}
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 24px;
-  background: linear-gradient(135deg, #8B0000, #B22222);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+main{
+  max-width:780px;
+  margin:28px auto;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  padding:0 16px;
 }
 
-.topbar h2 {
-  margin: 0;
+.card{
+  background:var(--card);
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.25);
 }
 
-.top-actions button {
-  margin-left: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  background: var(--card);
-  color: var(--text);
-  cursor: pointer;
+.card h3{
+  margin:0 0 10px 0;
+  color:var(--accent);
 }
 
-.top-actions button:hover {
-  transform: translateY(-2px);
+label{
+  display:block;
+  margin-top:8px;
+  font-size:14px;
 }
 
-
-main {
-  max-width: 780px;
-  margin: 28px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 0 16px;
+input, select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-top:8px;
+  font-size:15px;
+  background:#222;
+  color:var(--text);
 }
 
-
-.card {
-  background: var(--card);
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-}
-
-
-input, select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  margin-top: 10px;
-  font-size: 15px;
-}
 
 button[type="submit"],
+#setMeta,
 .meta-row button,
-.extrato-actions button {
-  margin-top: 12px;
-  background: var(--accent);
-  color: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
+.extrato-actions button{
+  margin-top:12px;
+  background:var(--accent);
+  color:#fff;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
 }
 
 
-.meta-row {
-  display: flex;
-  gap: 10px;
+.meta-row{
+  display:flex;
+  gap:10px;
+  margin-top:8px;
 }
-
-.meta-row input {
-  flex: 1;
+.meta-row input{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:#222;
 }
-
-.meta-row button {
-  flex: 0 0 150px;
-}
-
-
-.lista {
-  list-style: none;
-  padding: 0;
-  margin: 12px 0;
-}
-
-.lista li {
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(0,0,0,0.15);
-  margin-bottom: 8px;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.lista li .meta {
-  font-size: 12px;
-  color: #ddd;
+.meta-row button{
+  flex:0 0 160px;
 }
 
 
-.extrato-actions {
-  margin-top: 10px;
-  text-align: right;
+.lista{
+  list-style:none;
+  padding:0;
+  margin:12px 0;
+}
+.lista li{
+  padding:10px;
+  border-radius:10px;
+  background:rgba(0,0,0,0.15);
+  margin-bottom:8px;
+  font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.lista li .meta{
+  font-size:12px;
+  color:#ddd;
+}
+
+
+.extrato-actions{
+  margin-top:10px;
+  text-align:right;
+}
+
+
+body.light{
+  background:var(--light-bg);
+  color:var(--light-text);
+}
+body.light .card{
+  background:var(--light-card);
+  color:var(--light-text);
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+}
+body.light input,
+body.light select{
+  background:#fff;
+  color:var(--light-text);
+  border:1px solid #ddd;
+}
+body.light .top-actions button{
+  background:var(--light-card);
 }
